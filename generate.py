@@ -53,9 +53,9 @@ class Wisdom:
     def check_twitter_handle(self, domain):
         r = requests.get("http://twitter.com/" + domain.strip('.com'))
         if r.status_code == 200:
-            return ':t'
-        else:
             return ''
+        else:
+            return ':t'
 
     def generate_domains(self):
         i = 0
