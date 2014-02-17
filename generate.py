@@ -65,8 +65,8 @@ class Wisdom:
             try:
                 w = whois.whois(domain)
             except Exception, e:
-                print 'There was problem checking the domain (%s) because: %s' % (domain, e)
                 twitter_flag = self.check_twitter_handle(domain)
+                print '=> Marked as free: %s %s' % (domain, twitter_flag)
                 self.outfile.write(domain + ' ' + twitter_flag + '\n')
 
 w = Wisdom()
