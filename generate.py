@@ -64,8 +64,8 @@ class Wisdom:
             print "checking domain %s %i/%i" % (domain, i, len(self.domains))
             try:
                 w = whois.whois(domain)
-            except whois.parser.PywhoisError:
-                print 'Domain %s is not registered' % domain
+            except Exception, e:
+                print 'There was problem checking the domain (%s) because: %s' % (domain, e)
                 twitter_flag = self.check_twitter_handle(domain)
                 self.outfile.write(domain + ' ' + twitter_flag + '\n')
 
