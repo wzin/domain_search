@@ -49,7 +49,7 @@ class Wisdom:
                     domain = self.all_chars_permutations[chunk1] + self.all_chars_permutations[chunk2] + '.com'
                     self.domains.append(domain)
         return self.domains
-    
+
     def check_twitter_handle(self, domain):
         r = requests.get("http://twitter.com/" + domain.strip('.com'))
         if r.status_code == 200:
@@ -63,11 +63,16 @@ class Wisdom:
             i = i + 1
             print "checking domain %s %i/%i" % (domain, i, len(self.domains))
             try:
-                w = whois.whois(domain)
+                if not whois.query(str(domain)):
+                    twitter_flag = self.check_twitter_handle(domain)
+                    print '=> Marked as free: %s %s' % (domain, twitter_flag)
+                    self.outfile.write(domain + ' ' + twitter_flag + '\n')
+                else:
+                    print "Domain %s is not available" % domain
             except Exception, e:
-                twitter_flag = self.check_twitter_handle(domain)
-                print '=> Marked as free: %s %s' % (domain, twitter_flag)
-                self.outfile.write(domain + ' ' + twitter_flag + '\n')
+                print "Could not fetch info about domain because =>"
+                print "%s" % e
+                pass
 
 w = Wisdom()
 w.generate_char_permutations()
